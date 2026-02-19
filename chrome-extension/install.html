@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReviewGuard Extension Kurulum</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .step {
+      background: #f5f5f5;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border-left: 4px solid #4285f4;
+    }
+    .step-number {
+      background: #4285f4;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    code {
+      background: #e8e8e8;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+    }
+    .warning {
+      background: #fff3cd;
+      border-left-color: #ffc107;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>ReviewGuard Chrome Extension Kurulum</h1>
+  
+  <div class="warning">
+    <strong>Önemli:</strong> Bu extension, Google Maps yorumlarını otomatik doldurmak için gereklidir. 
+    Sadece bir kez kurmanız yeterlidir.
+  </div>
+
+  <div class="step">
+    <div>
+      <span class="step-number">1</span>
+      <strong>Chrome'da Extension Sayfasını Açın</strong>
+    </div>
+    <p>Chrome adres çubuğuna şunu yazın:</p>
+    <code>chrome://extensions/</code>
+    <p>veya Chrome menüsünden: <strong>Diğer araçlar → Uzantılar</strong></p>
+  </div>
+
+  <div class="step">
+    <div>
+      <span class="step-number">2</span>
+      <strong>Geliştirici Modunu Açın</strong>
+    </div>
+    <p>Sağ üst köşede <strong>"Geliştirici modu"</strong> anahtarını açın</p>
+  </div>
+
+  <div class="step">
+    <div>
+      <span class="step-number">3</span>
+      <strong>Extension'ı Yükleyin</strong>
+    </div>
+    <p>Sol üstte <strong>"Paketlenmemiş uzantı yükle"</strong> butonuna tıklayın</p>
+    <p><code>chrome-extension</code> klasörünü seçin</p>
+  </div>
+
+  <div class="step">
+    <div>
+      <span class="step-number">4</span>
+      <strong>Hazır!</strong>
+    </div>
+    <p>Artık ReviewGuard sisteminde yorum yazdığınızda, Google Maps'te otomatik olarak doldurulacak.</p>
+  </div>
+
+  <div class="warning">
+    <strong>Not:</strong> Extension sadece Google Maps sayfalarında çalışır. 
+    Yorum bilgileri güvenli bir şekilde tarayıcınızda saklanır ve 10 dakika sonra otomatik temizlenir.
+  </div>
+</body>
+</html>
