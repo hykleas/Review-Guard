@@ -96,9 +96,9 @@ export default function DashboardPage() {
       }
 
       setProfile(profileData)
-      setGoogleMapsLink(profileData.google_maps_link || '')
-      setAutoRedirectToGoogle(profileData.auto_redirect_to_google ?? true)
-      setShowGooglePrompt(profileData.show_google_prompt ?? true)
+      setGoogleMapsLink((profileData as any).google_maps_link || '')
+      setAutoRedirectToGoogle((profileData as any).auto_redirect_to_google ?? true)
+      setShowGooglePrompt((profileData as any).show_google_prompt ?? true)
 
       // Yorumları al
       const reviewsResult = await loadReviews(session.user.id)
