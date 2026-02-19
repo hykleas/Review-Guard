@@ -8,7 +8,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Input, TextArea } from '@/components/ui/Input'
 import { StarRating, StarRatingDisplay } from '@/components/ui/StarRating'
 import { createClientBrowser } from '@/lib/supabase'
-import { Profile, Review, DashboardStats } from '@/types/supabase'
+import { Profile, Review, DashboardStats, ProfileUpdate } from '@/types/supabase'
 import { 
   Star, 
   QrCode, 
@@ -96,9 +96,9 @@ export default function DashboardPage() {
       }
 
       setProfile(profileData)
-      setGoogleMapsLink((profileData as any).google_maps_link || '')
-      setAutoRedirectToGoogle((profileData as any).auto_redirect_to_google ?? true)
-      setShowGooglePrompt((profileData as any).show_google_prompt ?? true)
+      setGoogleMapsLink(profileData.google_maps_link || '')
+      setAutoRedirectToGoogle(profileData.auto_redirect_to_google ?? true)
+      setShowGooglePrompt(profileData.show_google_prompt ?? true)
 
       // Yorumları al
       const reviewsResult = await loadReviews(session.user.id)
@@ -107,7 +107,7 @@ export default function DashboardPage() {
       const hasSeenOnboarding = localStorage.getItem('reviewguard_onboarding_seen')
       if (!hasSeenOnboarding) {
         // Profil oluşturulma tarihine bak (7 gün içindeyse onboarding göster)
-        const createdAt = new Date((profileData as any).created_at)
+        const createdAt = new Date(profileData.created_at)
         const daysSinceCreation = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24)
         if (daysSinceCreation < 7) {
           setShowOnboarding(true)
@@ -250,9 +250,10 @@ export default function DashboardPage() {
 
     setIsSaving(true)
     try {
+      const updateData: ProfileUpdate = { google_maps_link: googleMapsLink }
       const { data, error } = await supabase
       .from('profiles')
-      .update({ google_maps_link: googleMapsLink } as any)
+      .update(updateData)
       .eq('id', profile.id)
       .select()
       .single()
@@ -280,9 +281,10 @@ export default function DashboardPage() {
     if (!profile) return
 
     try {
+      const updateData: ProfileUpdate = settings
       const { data, error } = await supabase
         .from('profiles')
-        .update(settings as any)
+        .update(updateData)
         .eq('id', profile.id)
         .select()
         .single()
@@ -324,9 +326,10 @@ export default function DashboardPage() {
         newQrCodeId = newQrCodeId.substring(0, 16)
       }
 
+      const updateData: ProfileUpdate = { qr_code_id: newQrCodeId }
       const { data, error } = await supabase
         .from('profiles')
-        .update({ qr_code_id: newQrCodeId } as any)
+        .update(updateData)
         .eq('id', profile.id)
         .select()
         .single()
@@ -505,7 +508,7 @@ export default function DashboardPage() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'overview' | 'reviews' | 'analytics' | 'settings')}
                 className={cn(
                   'flex items-center gap-2 py-4 border-b-2 font-medium text-sm transition-colors',
                   activeTab === tab.id
