@@ -107,7 +107,7 @@ export default function DashboardPage() {
       const hasSeenOnboarding = localStorage.getItem('reviewguard_onboarding_seen')
       if (!hasSeenOnboarding) {
         // Profil oluşturulma tarihine bak (7 gün içindeyse onboarding göster)
-        const createdAt = new Date(profileData.created_at)
+        const createdAt = new Date((profileData as any).created_at)
         const daysSinceCreation = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24)
         if (daysSinceCreation < 7) {
           setShowOnboarding(true)
