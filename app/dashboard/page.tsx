@@ -251,11 +251,11 @@ export default function DashboardPage() {
     setIsSaving(true)
     try {
       const { data, error } = await supabase
-        .from('profiles')
-        .update({ google_maps_link: googleMapsLink })
-        .eq('id', profile.id)
-        .select()
-        .single()
+      .from('profiles')
+      .update({ google_maps_link: googleMapsLink } as any)
+      .eq('id', profile.id)
+      .select()
+      .single()
 
       if (error) {
         alert('Kaydetme hatası: ' + error.message)
@@ -282,7 +282,7 @@ export default function DashboardPage() {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .update(settings)
+        .update(settings as any)
         .eq('id', profile.id)
         .select()
         .single()
@@ -326,7 +326,7 @@ export default function DashboardPage() {
 
       const { data, error } = await supabase
         .from('profiles')
-        .update({ qr_code_id: newQrCodeId })
+        .update({ qr_code_id: newQrCodeId } as any)
         .eq('id', profile.id)
         .select()
         .single()
