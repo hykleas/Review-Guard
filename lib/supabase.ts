@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { createBrowserClient, createServerClient, type CookieOptions } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 import { Database } from '@/types/supabase'
 
 // Environment variables

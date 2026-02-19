@@ -90,15 +90,18 @@ export default function DashboardPage() {
         .eq('id', session.user.id)
         .single()
 
-      if (profileError) {
+      if (profileError || !profileData) {
         console.error('Profile error:', profileError)
         return
       }
 
-      setProfile(profileData)
-      setGoogleMapsLink(profileData.google_maps_link || '')
-      setAutoRedirectToGoogle(profileData.auto_redirect_to_google ?? true)
-      setShowGooglePrompt(profileData.show_google_prompt ?? true)
+      // Tip güvenliği için açık tip belirtme
+      const profile: Profile = profileData
+
+      setProfile(profile)
+      setGoogleMapsLink(profile.google_maps_link || '')
+      setAutoRedirectToGoogle(profile.auto_redirect_to_google ?? true)
+      setShowGooglePrompt(profile.show_google_prompt ?? true)
 
       // Yorumları al
       const reviewsResult = await loadReviews(session.user.id)
@@ -107,7 +110,7 @@ export default function DashboardPage() {
       const hasSeenOnboarding = localStorage.getItem('reviewguard_onboarding_seen')
       if (!hasSeenOnboarding) {
         // Profil oluşturulma tarihine bak (7 gün içindeyse onboarding göster)
-        const createdAt = new Date(profileData.created_at)
+        const createdAt = new Date(profile.created_at)
         const daysSinceCreation = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24)
         if (daysSinceCreation < 7) {
           setShowOnboarding(true)
@@ -253,6 +256,7 @@ export default function DashboardPage() {
       const updateData: ProfileUpdate = { google_maps_link: googleMapsLink }
       const { data, error } = await supabase
       .from('profiles')
+      // @ts-ignore - Supabase type inference issue
       .update(updateData)
       .eq('id', profile.id)
       .select()
@@ -284,6 +288,7 @@ export default function DashboardPage() {
       const updateData: ProfileUpdate = settings
       const { data, error } = await supabase
         .from('profiles')
+        // @ts-ignore - Supabase type inference issue
         .update(updateData)
         .eq('id', profile.id)
         .select()
@@ -329,6 +334,7 @@ export default function DashboardPage() {
       const updateData: ProfileUpdate = { qr_code_id: newQrCodeId }
       const { data, error } = await supabase
         .from('profiles')
+        // @ts-ignore - Supabase type inference issue
         .update(updateData)
         .eq('id', profile.id)
         .select()
@@ -804,7 +810,7 @@ export default function DashboardPage() {
                 {(['7d', '30d', '90d', 'all'] as const).map((range) => (
                   <Button
                     key={range}
-                    variant={timeRange === range ? 'default' : 'outline'}
+                    variant={timeRange === range ? 'primary' : 'outline'}
                     size="sm"
                     onClick={() => setTimeRange(range)}
                   >

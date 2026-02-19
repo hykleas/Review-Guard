@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/Card'
 import { Input, TextArea } from '@/components/ui/Input'
 import { StarRatingInput } from '@/components/ui/StarRating'
 import { createClientBrowser } from '@/lib/supabase'
-import { Profile } from '@/types/supabase'
+import { Profile, ReviewInsert } from '@/types/supabase'
 import { 
   Star, 
   Building2, 
@@ -112,14 +112,16 @@ export default function ReviewPage() {
 
     setIsSubmitting(true)
     try {
-      const { error } = await supabase.from('reviews').insert({
+      const reviewData: ReviewInsert = {
         profile_id: profile.id,
         rating,
         comment: comment.trim() || null,
         customer_name: customerName.trim() || 'Anonim',
         customer_email: customerEmail.trim() || null,
         is_internal: true,
-      })
+      }
+      // @ts-ignore - Supabase type inference issue
+      const { error } = await supabase.from('reviews').insert(reviewData)
 
       if (error) {
         console.error('Submit error:', error)
@@ -149,14 +151,16 @@ export default function ReviewPage() {
     setIsSubmitting(true)
     try {
       // Önce yorumu veritabanına kaydet
-      const { error } = await supabase.from('reviews').insert({
+      const reviewData: ReviewInsert = {
         profile_id: profile.id,
         rating,
         comment: comment.trim() || null,
         customer_name: customerName.trim() || 'Anonim',
         customer_email: customerEmail.trim() || null,
         is_internal: !profile.auto_redirect_to_google, // Eğer otomatik yönlendirme kapalıysa internal olarak işaretle
-      })
+      }
+      // @ts-ignore - Supabase type inference issue
+      const { error } = await supabase.from('reviews').insert(reviewData)
 
       if (error) {
         console.error('Submit error:', error)
